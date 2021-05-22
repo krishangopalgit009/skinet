@@ -32,7 +32,6 @@ namespace Core.Specifications
                 }
             }
         }
-
         public ProductWithTypesAndBrandsSpecification(int id) 
             : base(x => x.Id == id)
         {
