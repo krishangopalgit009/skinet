@@ -10,6 +10,7 @@ namespace API.Controllers
     [ApiController]
     [Route("errors/{code}")]
     [ApiExplorerSettings(IgnoreApi = true)]
+    
 
     public class WeatherForecastController : ControllerBase
     {

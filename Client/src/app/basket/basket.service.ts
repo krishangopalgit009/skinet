@@ -50,6 +50,18 @@ export class BasketService {
     this.setBasket(basket);
   }
 
+  private mapProductItemToBasketItem(item: IProduct, quantity: number): IBasksetItem {
+    return {
+      id: item.id,
+      productName: item.name,
+      price: item.price,
+      pictureUrl: item.pictureUrl,
+      quantity,
+      brand: item.productBrand,
+      type: item.productType
+    }
+  }
+
   private addOrUpdateItem(items: IBasksetItem[], itemToAdd: IBasksetItem, quantity: number): IBasksetItem[] {
 
     const index = items.findIndex(i => i.id === itemToAdd.id);
@@ -69,25 +81,12 @@ export class BasketService {
     return basket;
   }
 
-  private mapProductItemToBasketItem(item: IProduct, quantity: number): IBasksetItem {
-    return {
-      id: item.id,
-      productName: item.name,
-      price: item.price,
-      pictureUrl: item.pictureUrl,
-      quantity,
-      brand: item.productBrand,
-      type: item.productType
-    }
-  }
-
   private calculateTotals() {
     const basket = this.getCurrentBasketValue();
     const shipping = 0;
     const subtotal = basket.items.reduce((a, b)=> (b.price * b.quantity) + a, 0);
     const total = subtotal + shipping;
     this.basketTotalSource.next({shipping, total, subtotal});
-
   }
 
   incrementItemQuantity(item: IBasksetItem) {
