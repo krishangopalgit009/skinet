@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Dtos;
 using API.Errors;
@@ -53,9 +51,7 @@ namespace API.Controllers
     public async Task<ActionResult<AddressDto>> GetUserAddress()
     {
         var user = await _userManager.FindByUserByClaimsPrincipleWithAddressAsync(HttpContext.User);
-
         return _mapper.Map<Address, AddressDto>(user.Address);
-
     }
 
     [Authorize]
@@ -63,17 +59,13 @@ namespace API.Controllers
     public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
     {
         var user = await _userManager.FindByUserByClaimsPrincipleWithAddressAsync(HttpContext.User);
-        
         user.Address = _mapper.Map<AddressDto, Address>(address);
-        
         var result = await _userManager.UpdateAsync(user);
 
         if (result.Succeeded) return Ok(_mapper.Map<Address, AddressDto>(user.Address));
 
         return BadRequest("Problem updating the user");
-
     }
-
 
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
@@ -97,6 +89,13 @@ namespace API.Controllers
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
+
+        if (CheckEmailExistsAsync(registerDto.Email).Result.Value)
+        {
+            return new BadRequestObjectResult(new ApiValidationErrorResponse{Errors = new [] 
+            {"Email address is in user"}});
+        }
+
         var user = new AppUser
         {
             DisplayName = registerDto.DisplayName,
