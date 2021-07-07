@@ -11,10 +11,40 @@
     <div class="d-flex align-items-center">
       <a [routerLink]="['/basket']" class="position-relative">
         <i class="fa fa-shopping-cart fa-2x mr-5 text-dark"></i>
-        <div *ngIf="(basket$ | async ) as basket"  class="cart-no">{{basket.items.length}}</div>
+        <div *ngIf="(basket$ | async )"  class="cart-no">{{(basket$ | async).items.length}}</div>
       </a>
-      <a class="btn btn-outline-secondary mr-2">Login</a>
-      <a class="btn btn-outline-secondary mr-3">Sign Up</a>
+      <ng-container *ngIf="(currentUser$ | async) === null" >
+        <a [routerLink]="['/account/login']"   class="btn btn-outline-secondary mr-2">Login</a>
+        <a [routerLink]="['/account/register']" class="btn btn-outline-secondary mr-3">Sign Up</a>
+      </ng-container>
+      <ng-container *ngIf="(currentUser$ | async) !== null" >
+        <div class="dropdown ml-3 mr-5" dropdown>
+          <a class="dropdown-toggle" style="cursor: pointer" dropdownToggle>
+            Welcome <strong>{{(currentUser$ | async).displayName}}</strong>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" style="cursor: pointer" *dropdownMenu>
+            <a href="" class="dropdown-item d-flex align-items-center py-2">
+              <i class="fa fa-shopping-cart mt-3">
+                View Basket
+              </i>
+            </a> 
+            <a href="" class="dropdown-item d-flex align-items-center py-2">
+              <i class="fa fa-history mt-3">
+                View Orders
+              </i>
+            </a>
+            <div class="dropdown-divider">
+            </div>
+            <a (click)="logout()" class="dropdown-item d-flex align-items-center py-2">
+              <i class="fa fa-sign-out mt-3">
+                Logout
+              </i>
+            </a>
+
+         </div>
+        </div>
+
+      </ng-container>
     </div>
     
   </div>

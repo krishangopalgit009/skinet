@@ -82,7 +82,7 @@ namespace API.Controllers
         {
             Email = user.Email,
             Token = _tokenService.CreateToken(user),
-            DisplayName = user.UserName
+            DisplayName = user.DisplayName
         };
     }
 
