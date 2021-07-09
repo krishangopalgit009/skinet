@@ -73,7 +73,6 @@ export class BasketService {
       items[index].quantity += quantity;
     }
     return items;
-    
   }
 
   createBasket(): IBasket {
