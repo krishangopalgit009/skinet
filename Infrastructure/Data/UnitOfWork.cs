@@ -14,7 +14,6 @@ namespace Infrastructure.Data
         {
             _context = context;
         }
-
         public IGenericRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity
         {
             if (_repositories == null) _repositories = new Hashtable();
@@ -28,20 +27,17 @@ namespace Infrastructure.Data
                 (typeof(TEntity)), _context);
 
                 _repositories.Add(type, repositoryInstance);
-
             }
             return (IGenericRepository<TEntity>) _repositories[type];
-
         }
 
-        public void Dispose()
+        public void Dispose() 
         {
-            _context.Dispose();
+           _context.Dispose(); 
         }
         public async Task<int> Complete()
         {
-            return await _context.SaveChangesAsync();
+           return await _context.SaveChangesAsync();
         }
-
     }
 }

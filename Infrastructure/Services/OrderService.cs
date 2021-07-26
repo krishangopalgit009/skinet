@@ -61,18 +61,14 @@ namespace Infrastructure.Services
         {
             return await _unitofWork.Repository<DeliveryMethod>().ListAllAsync();
         }
-
         public async Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
         {
             var spec = new OrdersWithItemsAndOrderingSpecification(id, buyerEmail);
-
             return await _unitofWork.Repository<Order>().GetEntityWithSpec(spec);
         }
-
         public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
         {
             var spec = new OrdersWithItemsAndOrderingSpecification(buyerEmail);
-
             return await _unitofWork.Repository<Order>().ListAsync(spec);
         }
     }
